@@ -1,0 +1,855 @@
+
+
+
+1.Count the element:
+
+package offcampusinterview;
+
+import java.util.Scanner;
+
+public class CountInteger {
+
+	public static void main(String[] args) {
+		CountInteger obj = new CountInteger();
+		obj.start();
+	}
+
+	private void start() {
+		Scanner scan = new Scanner(System.in);
+
+		int n = scan.nextInt();
+		int[] arr = new int[n];
+		System.out.println("Enter the array Elements: ");
+		for (int i = 0; i < n; i++) {
+			arr[i] = scan.nextInt();
+		}
+
+		
+		int count=1,index=1;
+		while(index<n) {
+			if(arr[index-1]==arr[index]) {
+				index++;
+				count++;
+			}
+			else if(arr[index-1]!=arr[index]) {
+				if(count>1) {
+					System.out.println(arr[index-1]+"->"+count);
+				}
+				index++;
+				count=1;
+			}
+		}
+	}
+}
+
+2.Pattern :
+
+package offcampusinterview;
+
+import java.util.Scanner;
+
+public class Pattern {
+
+	public static void main(String[] args) {
+		Pattern obj=new Pattern();
+		obj.start();
+	}
+
+	private void start() {
+		Scanner scan=new Scanner(System.in);
+		int n=scan.nextInt();
+		
+		for(int i=1;i<=n;i++) {
+			int temp=0;
+			for(int space=0;space<n-i;space++) {
+				System.out.print(" ");
+			}
+			for(int j=i;j<i+i;j++) {
+				System.out.print(j);
+				temp=j;
+			}
+			for(int k=temp-1;k>=i;k--) {
+				System.out.print(k);
+			}
+			System.out.println();
+		}
+	}
+
+}
+
+3.Reverse with k elements:
+
+package offcampusinterview;
+
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class ReverseWithK {
+
+	public static void main(String[] args) {
+		ReverseWithK obj=new ReverseWithK();
+		obj.start();
+	}
+
+	private void start() {
+		Scanner scan=new Scanner(System.in);
+		int n=scan.nextInt();
+		System.out.println("Enter the array elements: ");
+		int[] arr=new int[n];
+		for(int i=0;i<n;i++) {
+			arr[i]=scan.nextInt();
+		}
+		System.out.println("Enter the k: ");
+		int k=scan.nextInt();
+		
+		for(int i=0;i<n;i+=k) {
+			reverse(arr,i,k);
+		}
+		System.out.println(Arrays.toString(arr));
+	}
+
+	private void reverse(int[] arr, int i, int k) {
+		int end=0;
+		if(i+k>=arr.length) {
+			end=arr.length;
+		}
+		else {
+			end=i+k;
+		}
+		
+		while(i<end-1) {
+			int temp=arr[i];
+			arr[i]=arr[end-1];
+			arr[end-1]=temp;
+			i++;
+			end--;
+		}
+	}
+
+}
+
+4.Simplify the path:
+
+package offcampusinterview;
+import java.util.Scanner;
+public class SimplifyPath {
+
+	public static void main(String[] args) {
+		SimplifyPath obj = new SimplifyPath();
+		obj.start();
+	}
+
+	private void start() {
+		Scanner scan = new Scanner(System.in);
+		String str = scan.next();
+
+		StringBuilder ansStr = new StringBuilder();
+		
+		for (int i = 0; i < str.length(); i++) {
+			if (i == 0) {
+				ansStr.append('/');
+			} 
+			else if(i==str.length()-1) {
+				if((int) str.charAt(i) <= 122 && (int) str.charAt(i) >= 97) {
+					ansStr.append(str.charAt(i));
+				}
+				continue;
+			}
+			else  if ((int) str.charAt(i) <= 122 && (int) str.charAt(i) >= 97) {
+				ansStr.append(str.charAt(i));
+			} else if (str.charAt(i) == '/' && ansStr.charAt(ansStr.length()-1)=='/') {
+				continue;
+			} else if (str.charAt(i) == '/' && ansStr.charAt(ansStr.length()-1)!='/') {
+				ansStr.append('/');
+			} else if (str.charAt(i) == '.' && str.charAt(i + 1) == '.') {
+				int end=ansStr.length()-1;
+				if(end==0) {
+					continue;
+				}
+				int start=getIndex(ansStr,end);
+				ansStr.delete(start, end);
+				i++;
+				
+			} else if (str.charAt(i) == '.' && str.charAt(i + 1) != '.') {
+				continue;
+			}
+		}
+		System.out.println(ansStr);
+	}
+
+	private int getIndex(StringBuilder ansStr, int end) {
+		int start=end-1;
+		while(start>=0) {
+			if(ansStr.charAt(start)=='/') {
+				return start;
+			}
+			else {
+				start--;
+			}
+		}
+		
+		return start;
+	}
+}
+
+5.Time Intervals:
+
+package offcampusinterview;
+
+import java.util.Scanner;
+
+public class TimeInterval {
+
+	public static void main(String[] args) {
+		TimeInterval obj=new TimeInterval();
+		obj.start();
+	}
+
+	private void start() {
+		Scanner scan=new Scanner(System.in);
+		int n=scan.nextInt();
+		int[][] arr=new int[n][2];
+		for(int i=0;i<n;i++) {
+			for(int j=0;j<2;j++) {
+				arr[i][j]=scan.nextInt();
+			}
+		}
+		
+		sort(arr);
+//		for(int i=0;i<n;i++) {
+//			for(int j=0;j<2;j++) {
+//				System.out.print(arr[i][j]);
+//			}
+//			System.out.println();
+//		}
+		int start=arr[0][0],end=arr[0][1];
+		
+		for(int i=1;i<n;i++) {
+			if(arr[i][0]<=end) {
+				if(i==n-1) {
+					end=arr[i][1];
+					System.out.println("["+start+","+end+"]");
+					return;
+				}
+				end=arr[i][1];
+			}
+			else if(i==n-1){
+				System.out.println("["+start+","+end+"]");
+				start=arr[i][0];
+				end=arr[i][1];
+				System.out.println("["+start+","+end+"]");
+				
+			}
+			else {
+				System.out.println("["+start+","+end+"]");
+				start=arr[i][0];
+				end=arr[i][1];
+			}
+		}
+		
+		
+	}
+
+	private void sort(int[][] arr) {
+		for(int i=0;i<arr.length-1;i++) {
+			for(int j=i+1;j<arr.length;j++) {
+				if(arr[i][0]>arr[j][0]) {
+					swap(arr,i,j);
+				}
+			}
+		}
+	}
+
+	private void swap(int[][] arr, int i, int j) {
+		int temp1=arr[i][0],temp2=arr[i][1];
+		
+		arr[i][0]=arr[j][0];
+		arr[j][0]=temp1;
+		arr[i][1]=arr[j][1];
+		arr[j][1]=temp2;
+			
+	}
+
+}
+
+6.Pyramid pattern:
+
+package com.zohointerview.programs;
+
+import java.util.Scanner;
+
+public class PyramidPattern {
+
+	public static void main(String[] args) {
+		PyramidPattern obj = new PyramidPattern();
+		obj.start();
+	}
+
+	private void start() {
+		Scanner scan = new Scanner(System.in);
+
+		System.out.println("Enter the Number : ");
+		int n = scan.nextInt();
+		
+		if(n>=0) {
+			for(int i=n;i>=1;i--) {
+				for(int space=1;space<=n-i;space++) {
+					System.out.print(" ");
+				}
+				for(int j=n-i+1;j<=n;j++) {
+					System.out.print(j+" ");
+				}
+				System.out.println();
+			}
+			for(int i=n-1;i>=1;i--) {
+				for(int space=1;space<i;space++) {
+					System.out.print(" ");
+				}
+				for(int j=i;j<=n;j++) {
+					System.out.print(j+" ");
+				}
+				System.out.println();
+			}
+		}
+		else {
+			for(int i=n;i<0;i++) {
+				for(int space=n-i-1;space<-1;space++) {
+					System.out.print(" ");
+				}
+				for(int j=i;j<0;j++) {
+					System.out.print(j+" ");
+				}
+				System.out.println();
+			}
+			for(int i=-2;i>=n;i--) {
+				for(int space=n-i+1;space<=0;space++) {
+					System.out.print(" ");
+				}
+				for(int j=i;j<0;j++) {
+					System.out.print(j+" ");
+				}
+				System.out.println();
+			}
+	}
+		
+	}
+}
+
+6.Two sum:
+
+package com.zohointerview.programs;
+
+import java.util.ArrayList;
+import java.util.Scanner;
+
+public class CheckSum {
+
+	public static void main(String[] args) {
+		CheckSum obj=new CheckSum();
+		obj.start();
+	}
+
+	private void start() {
+		Scanner scan=new Scanner(System.in);
+		
+		System.out.println("Number of elements: ");
+		int n=scan.nextInt();
+		
+		int[] arr=new int[n];
+		
+		for(int i=0;i<n;i++) {
+			arr[i]=scan.nextInt();
+		}
+		
+		ArrayList<Integer> map = new ArrayList<>();
+		int target=scan.nextInt();
+		
+		for(int i=0;i<n;i++) {
+			if(map.contains(target-arr[i])) {
+				System.out.println("Yes");
+				return;
+			}
+			else {
+				map.add(arr[i]);
+			}
+		}
+		
+		System.out.println("No");	
+		return;
+	}
+
+}
+
+7.Find the days between two years:
+
+package com.level2;
+
+import java.util.Scanner;
+
+public class FindDays {
+
+	public static void main(String[] args) {
+		FindDays obj=new FindDays();
+		obj.start();
+	}
+
+	private void start() {
+		Scanner scan = new Scanner(System.in);	
+		int[] arr1 = new int[3];
+		for (int i = 0; i < 3; i++) {
+			arr1[i] = scan.nextInt();
+		}
+		int days1=findDays(arr1);
+		int[] arr2 = new int[3];
+
+		for (int i = 0; i < 3; i++) {
+			arr2[i] = scan.nextInt();
+		}
+		int days2=findDays(arr2);
+		
+		System.out.println(days2-days1);
+	}
+
+	private int findDays(int[] arr1) {
+		int sum=0;
+		int[] month= {31,28,31,30,31,30,31,31,30,31,30,31};
+	
+		for(int i=0;i<arr1.length;i++) {
+			if(i==0) {
+				sum+=arr1[i];
+			}
+			else if(i==1) {
+				for(int j=0;j<arr1[i]-1;j++) {
+					sum+=month[j];
+				}
+			}
+			else {
+				if(arr1[i]%4==0 && arr1[i]%100!=0) {
+					sum+=1;
+				}
+				sum+=(arr1[i]*365);
+			}
+		}
+		return sum;
+	}
+}
+
+9.Frequency sort:
+
+package com.level2;
+
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class FrequencySort {
+
+	public static void main(String[] args) {
+		FrequencySort obj=new FrequencySort();
+		obj.start();
+	}
+
+	private void start() {
+		Scanner scan=new Scanner(System.in);
+		int n=scan.nextInt();
+		
+		int[] arr=new int[n];
+		
+		for(int i=0;i<n;i++) {
+			arr[i]=scan.nextInt();
+		}
+		Arrays.sort(arr);
+		int[] countArr =new int[n];
+		
+		for(int i=0;i<n;i++) {
+			int count=1;
+			boolean flag=true;
+			for(int j=0;j<n;j++) {
+				if(i!=j) {
+					if(arr[i]==arr[j] && i<j) {
+						count++;
+					}
+					else if(arr[i]==arr[j] && i>j) {
+						flag=false;
+						countArr[i]=Integer.MIN_VALUE;
+						break;
+					}
+				}
+			}
+			if(flag) {
+				countArr[i]=count;
+			}
+		}
+		int i=0;
+		while(i<n) {
+			int max=Integer.MIN_VALUE, index=0;
+			
+			for(int j=0;j<n;j++) {
+				if(max<countArr[j] && countArr[j]!=Integer.MIN_VALUE) {
+					max=countArr[j];
+					index=j;
+				}
+			}
+			countArr[index]=Integer.MIN_VALUE;
+			for(int k=0;k<max;k++) {
+				System.out.print(arr[index]+" ");
+				i++;
+			}		
+		}		
+	}
+}
+
+
+10.Remove palindrome:
+
+package com.level2;
+
+import java.util.Scanner;
+
+public class RemovePalindrome {
+
+	public static void main(String[] args) {
+		RemovePalindrome obj = new RemovePalindrome();
+		obj.start();
+	}
+	private void start() {
+		Scanner scan=new Scanner(System.in);
+		
+		String str=scan.nextLine();
+		
+		String[] strArr=str.split(" ");
+		
+		printAns(strArr);
+	}
+
+	private void printAns(String[] strArr) {
+		for(int i=0;i<strArr.length;i++) {
+			if(!isPalindrome(strArr[i])) {
+				System.out.print(strArr[i]+" ");
+			}
+		}
+	}
+
+	private boolean isPalindrome(String string) {
+		int i=0,j=string.length()-1;
+		while(i<j) {
+			if(string.charAt(i)!=string.charAt(j)) {
+				return false;
+			}
+			i++;
+			j--;
+		}
+		return true;
+	}
+}
+
+11.Permutation sort:
+
+package arattai1;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Scanner;
+
+public class PermutationSort {
+	
+	static List<String> arr=new ArrayList<>();
+	public static void main(String[] args) {
+		PermutationSort obj=new PermutationSort();
+		Scanner scan=new Scanner(System.in);
+		System.out.println("Enter the String: ");
+		String str=scan.next();
+		
+		char[] charArr=str.toCharArray();
+		List<Character> permuteArr=new ArrayList<>();
+    	permutations(charArr,permuteArr);	
+//  	permutations1(charArr,permuteArr);	
+		Collections.sort(arr);
+		System.out.println(arr);
+	}
+	
+	private static void permutations(char[] charArr, List<Character> permuteArr) {
+		if(charArr.length==permuteArr.size()) {
+			System.out.println(permuteArr);
+			String temp="";
+			for(int i=0;i<permuteArr.size();i++) {
+				temp+=permuteArr.get(i);
+			}
+			arr.add(temp);
+			return;
+		}
+		
+		for(int i=0;i<charArr.length;i++) {
+			if(charArr[i]!='\u0000') {
+				char temp=charArr[i];
+				charArr[i]='\u0000';
+				permuteArr.add(temp);
+				permutations(charArr,permuteArr);
+				charArr[i]=temp;
+				permuteArr.remove(permuteArr.size()-1);
+			}
+		}	
+	}
+}
+
+
+13.Product array:
+
+package arattai1;
+
+import java.util.Arrays;
+
+public class ProductArray {
+
+	public static void main(String[] args) {
+		ProductArray  obj = new ProductArray();
+		int[] arr= new int[] {1,2,3,4};
+		int[] resarr =new int[arr.length];
+		
+		for(int i=0;i<resarr.length;i++) {
+			resarr[i]=obj.getProduct(i,arr);
+		}	
+		System.out.println(Arrays.toString(resarr));
+	}
+
+	private int getProduct(int i, int[] arr) {
+		int product=1;
+		for(int j=0;j<arr.length;j++) {
+			if(j!=i) {
+				product*=arr[j];
+			}
+		}
+		return product;
+	}
+}
+
+15.Sort 0's ,1's ans 2's:
+
+package arattai1;
+
+public class Sort012 {
+    public static void sort012(int[] nums) {
+        int low = 0;
+        int mid = 0;
+        int high = nums.length - 1;
+
+        while (mid <= high) {
+            if (nums[mid] == 0) {
+                swap(nums, low, mid);
+                low++;
+                mid++;
+            } else if (nums[mid] == 1) {
+                mid++;
+            } else {
+                swap(nums, mid, high);
+                high--;
+            }
+        }
+    }
+
+    private static void swap(int[] nums, int i, int j) {
+        int temp = nums[i];
+        nums[i] = nums[j];
+        nums[j] = temp;
+    }
+
+    public static void main(String[] args) {
+        int[] arr = { 0, 1, 2, 1, 0};
+        sort012(arr);
+        for (int num : arr) {
+            System.out.print(num + " ");
+        }
+    }
+}
+
+17.Decode the String:
+
+package arattaiAssignments;
+
+import java.util.Scanner;
+import java.util.Stack;
+
+public class Decode2 {
+
+	public static void main(String[] args) {
+		Scanner scan=new Scanner(System.in);
+		Stack<Integer> num=new Stack<>();
+		System.out.println("Enter the STring: ");
+		String str=scan.next();
+		String temp="";
+		for(int i=0;i<=str.length();i++) {
+			num.push(i+1);
+			if( str.length()==i || str.charAt(i)=='I' ) {
+				while(!num.isEmpty()) {
+					temp+=num.pop();
+				}
+			}
+		}
+		System.out.println(temp);
+	}
+
+}
+
+18.Pascal Triangle:
+
+package arattaiAssignments;
+
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Scanner;
+
+public class PascalTriangle {
+
+	public static void main(String[] args) {
+		List<List<Integer>> pascal =new LinkedList<>();
+		
+		Scanner scan=new Scanner(System.in);
+		System.out.println("Enter the triangle length: ");
+		int n=scan.nextInt();
+		
+		for(int i=0;i<n;i++) {
+			List<Integer>subList=new LinkedList<>();
+			for(int j=0;j<=i;j++) {
+				if(j==0) {
+					subList.add(1);
+				}
+				else if(j!=0 && j!=i) {
+					subList.add(pascal.get(i-1).get(j)+pascal.get(i-1).get(j-1));
+				}
+				else {
+					subList.add(1);
+				}
+			}
+			pascal.add(subList);
+		}
+		for(List<Integer> p:pascal) {
+			System.out.print("[");
+			for(int element:p) {
+				
+				System.out.print(element+" ");
+			}
+			System.out.println("]");
+		}
+	}
+}
+
+19.Diagonal sum:
+
+package finalEvaluation;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
+public class Diagonal {
+
+	public static void main(String[] args) {
+		Diagonal obj=new Diagonal();
+		obj.start();
+	}
+
+	private void start() {
+		Scanner scan=new Scanner(System.in);
+		List<List<Integer>> arr=new ArrayList<>();
+		System.out.println("Enter the size of the array: ");
+		int n=scan.nextInt();
+		int[][] multiarr=new int[n][n];
+		
+		for(int i=0;i<multiarr.length;i++) {
+			for(int j=0;j<multiarr[i].length;j++) {
+				multiarr[i][j]=Integer.parseInt(scan.next());
+			}
+		}
+		
+		
+		List<Integer>subarray=new ArrayList<>();
+		subarray.add(multiarr[0][0]);
+		arr.add(subarray);
+		
+		int res=1;
+		while(res<=n+n-3) {
+			List<Integer>subarray2=new ArrayList<>();
+			int need;
+			if(res<n) {
+				need=0+res;
+			}
+			else {
+				need=n-1+(res-(n-1));
+			}
+			
+			for(int i=0;i<multiarr.length;i++) {
+				  for(int j=0;j<multiarr[i].length;j++) {
+					 if(i==0 && j==0) {
+						 continue;
+					 }
+					 else if(i==n-1 && j==n-1) {
+						 continue;
+					 }
+					 else if(j+i==need) {
+						 subarray2.add(multiarr[i][j]);
+					 }
+				}
+			}
+			arr.add(subarray2);
+			
+			res++;
+		}
+		List<Integer>subarray3=new ArrayList<>();
+		subarray3.add(multiarr[n-1][n-1]);
+		arr.add(subarray3);
+		
+		for(int i=0;i<arr.size();i++) {
+			for(int j=0;j<arr.get(i).size();j++) {
+				System.out.print(arr.get(i).get(j)+" ");
+			}
+			System.out.println();
+		}		   
+	}
+
+}
+
+20.Count meeting rooms:
+
+package zoho_interview;
+
+import java.util.Scanner;
+
+public class Count_MeetingRooms {
+
+	public static void main(String[] args) {
+		Count_MeetingRooms obj = new Count_MeetingRooms();
+		obj.start();
+	}
+
+	private void start() {
+		Scanner scan = new Scanner(System.in);
+		int[][] arr = new int[][]{{0,30},{5,10},{15,20}};
+		boolean[] res=new boolean[arr.length];
+		res[0]=true;
+		
+		int meetingRoom=1;
+		for(int i=1;i<arr.length;i++) {
+			if(checkMeetingRoom(i,arr,res)){
+				res[i]=true;
+				meetingRoom++;
+			}
+		}
+		System.out.println(meetingRoom);
+
+	}
+
+	private boolean checkMeetingRoom(int i, int[][] arr,boolean[] res) {
+		for(int j=0;j<res.length;j++ ) {
+			if(res[j]) {
+				if(arr[i][0]>arr[j][0] && arr[i][0]<arr[j][1] && arr[i][1]>arr[j][0] && arr[i][1]<arr[j][1]) {
+					res[j]=false;
+					return true;
+				}
+			}
+		}
+		
+		return false;
+	}
+}
+
