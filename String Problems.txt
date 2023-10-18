@@ -1,0 +1,151 @@
+
+
+			String problems
+
+
+1.Count the sub strings:
+
+package Strings;
+
+import java.util.Scanner;
+
+public class CountSubString {
+
+	public static void main(String[] args) {
+		Scanner scan=new Scanner(System.in);
+		String str1=scan.next();
+		String sub=scan.next();
+		findSub(str1,sub);
+	}
+
+	private static void findSub(String str1, String sub) {
+		int count=0;
+		for(int i=0;i<str1.length()-sub.length()+1;i++) {
+			
+			if(str1.substring(i,i+sub.length()).equals(sub)) {
+				count++;
+			}
+		}
+		System.out.println(count);
+	}
+
+}
+
+2.Find the longest prefix element in the String array:
+
+package Strings;
+import java.util.*;
+public class LongestPrefix {
+	public static boolean allCharactersSame(String s)
+	{
+	    int n = s.length();
+	    for (int i = 1; i < n; i++)
+	        if (s.charAt(i) != s.charAt(0))
+	            return false;
+	         
+	    return true;
+	}
+
+	public static void main(String[] args) {
+		String[] arr= {"geeksforgeeks", "geeks", "geek",
+		        "geezer"};
+		Arrays.sort(arr);
+		System.out.println(Arrays.toString(arr));
+		
+		String[] str=new String[arr[0].length()];
+		int k=0;
+		int z=0;
+		String s;
+		for(int i=0;i<arr[0].length();i++) {
+			s="";
+			for(int j=0;j<arr.length;j++) {
+				s+=arr[j].charAt(i);
+				
+			}
+			str[k++]=s;
+		}
+		for(String x:str) {
+			
+			if(allCharactersSame(x)) {
+				z++;
+			}
+			else
+				break;
+		}
+		String emp="";
+		for(int i=0;i<z;i++) {
+			emp+=arr[0].charAt(i);
+		}
+		System.out.println(emp);		
+	}
+}
+
+3.Remove duplicates in the strings:
+
+package Strings;
+import java.util.*;
+public class RemoveDuplicates {
+
+	public static void main(String[] args) {
+		String s="zvvoknmlaaa";
+		LinkedHashSet<Character> set = new LinkedHashSet<>();   
+        //Add each character of the string into LinkedHashSet   
+        for(int i=0;i<s.length();i++)   
+            set.add(s.charAt(i));   
+        for(Character ch : set)   
+            System.out.print(ch);   
+	}
+}
+
+4.Roman to Integer:
+
+package Strings;
+
+public class RomanToInt {
+	public int romanToDecimal(String str) {
+		char arr[] = { 'I', 'V', 'X', 'L', 'C', 'D', 'M' };
+		int[] arr1 = { 1, 5, 10, 50, 100, 500, 1000 };
+		int i, Decimal = 0;
+		// code here
+		for (int j = 0; j < str.length(); j++) {
+			for (i = arr.length - 1; i >= 0; i--) {
+				if (str.charAt(j) == arr[i]) {
+					Decimal += arr1[i];
+				}
+			}
+		}
+		return Decimal;
+	}
+
+	public static void main(String[] args) {
+		RomanToInt obj = new RomanToInt();
+		String str = "IV";
+		int result = obj.romanToDecimal(str);
+		int res = obj.romanToDecimal1(str);
+		System.out.println(result);
+		System.out.println(res);
+	}
+
+	private int romanToDecimal1(String str) {
+		char arr[] = { 'I', 'V', 'X', 'L', 'C', 'D', 'M' };
+		int[] arr1 = { 1, 5, 10, 50, 100, 500, 1000 };
+		int i, Decimal = 0;
+		int prev = 0;
+		int curr = 0;
+		for (int j = str.length() - 1; j > -1; j--) {
+			for (i = arr.length - 1; i >= 0; i--) {
+				if (str.charAt(j) == arr[i]) {
+					curr = arr1[i];
+					if (curr < prev) {
+						Decimal -= curr;
+					} else {
+						Decimal += curr;
+					}
+					prev = curr;
+				}
+
+			}
+		}
+		return Decimal;
+	}
+}
