@@ -1,0 +1,205 @@
+
+
+			Matrix problems
+
+1.Rotate matrix 90 deg clockwise:
+
+package rotatematrix;
+
+public class ClockWise_90 {
+
+	public static void main(String[] args) {
+		int[][] arr = new int[][] {{1,2,3},{4,5,6},{7,8,9}};
+		System.out.println("before rotate matrix: ");
+		print(arr);
+		
+		System.out.println(" after Rotate matrix by 90 degree --- ClockWise");
+		transpose(arr);
+		rotateClockwise(arr);
+		print(arr);
+	}
+	
+	private static void rotateClockwise(int[][] arr) {
+		for(int i=0;i<arr.length;i++) {
+			int low=0,high=arr.length-1;
+			while(low<high) {
+				int temp=arr[i][low];
+				arr[i][low]=arr[i][high];
+				arr[i][high]=temp;
+				low++;
+				high--;
+				
+			}
+		}
+	}
+
+	private static void transpose(int[][] arr) {
+		for(int i=0;i<arr.length;i++) {
+			for(int j=i;j<arr[i].length;j++) {
+				int temp=arr[i][j];
+				arr[i][j]=arr[j][i];
+				arr[j][i]=temp;
+			}
+		}
+	}
+	
+	private static void print(int[][] arr) {
+		for(int i=0;i<arr.length;i++) {
+			for(int j=0;j<arr[i].length;j++) {
+				System.out.print(arr[i][j]+" ");
+				
+			}
+			System.out.println();
+		}
+	}
+
+}
+
+2.Rotate matrix by 90 deg anti clockwise:
+
+package rotatematrix;
+
+public class Anticlockwise_90 {
+
+	public static void main(String[] args) {
+		int[][] arr = new int[][] {{1,2,3},{4,5,6},{7,8,9}};
+		System.out.println("before rotate matrix: ");
+		print(arr);
+		
+		System.out.println("after Rotate matrix by 90 degree---Anti-clockwise");
+		transpose(arr);
+		rotateAnti_clockwise(arr);
+		print(arr);
+		
+	}
+
+	private static void rotateAnti_clockwise(int[][] arr) {
+		for(int i=0;i<arr.length;i++) {
+			int low=0,high=arr.length-1;
+			
+			while(low<high) {
+				int temp=arr[low][i];
+				arr[low][i]=arr[high][i];
+				arr[high][i]=temp;
+				low++;
+				high--;
+			}
+		}
+	}
+
+	private static void transpose(int[][] arr) {
+		for(int i=0;i<arr.length;i++) {
+			for(int j=i;j<arr[i].length;j++) {
+				int temp=arr[j][i];
+				arr[j][i]=arr[i][j];
+				arr[i][j]=temp;
+			}
+		}
+	}
+
+	private static void print(int[][] arr) {
+		for(int i=0;i<arr.length;i++) {
+			for(int j=0;j<arr[i].length;j++) {
+				System.out.print(arr[i][j]+" ");
+				
+			}
+			System.out.println();
+		}
+	}
+}
+
+3.Right shift by K:
+
+package rotatematrix;
+
+public class RightShift {
+
+	public static void main(String[] args) {
+		int[][] arr = new int[][] { { 1, 2, 3 ,4}, {  5, 6, 7, 8 }, { 9,10,11,12 },{13,14,15,16} };
+		System.out.println("before right shift matrix: ");
+		print(arr);
+//		solve(arr);
+		rightShiftMatrix(arr);
+		System.out.println("After right shift matrix: ");
+		print(arr);
+	}
+
+	private static void rightShiftMatrix(int[][] arr) {
+		int count = 1, top = 0, left = 0, bottom = arr.length - 1, right = arr[0].length-1;
+		int n = arr.length;
+		while (count <= n-2) {
+			int last = arr[top + 1][top];
+			for (int i = top; i <= right; i++) {
+				int temp = arr[top][i];
+				arr[top][i] = last;
+				last = temp;
+				
+			}
+			top++;
+			for(int i=top;i<=bottom;i++) {
+				int temp = arr[i][right];
+				arr[i][right] = last;
+				last = temp;
+			}
+			right--;
+			for(int i=right;i>=left;i--) {
+				int temp = arr[bottom][i];
+				arr[bottom][i] = last;
+				last = temp;
+			}
+			bottom--;
+			for(int i=bottom;i>=top;i--) {
+				int temp = arr[i][left];
+				arr[i][left] = last;
+				last = temp;
+			}
+			left++;
+			count++;
+		}
+	}
+
+	private static void solve(int[][] arr) {
+		int top = 0, left = 0;
+		int right = arr[0].length;
+		int bottom = arr.length;
+		while (top < bottom - 1) {
+			int last = arr[top + 1][top];
+			for (int i = top; i < right; i++) {
+				int temp = arr[top][i];
+				arr[top][i] = last;
+				last = temp;
+			}
+			top++;
+			for (int i = left + 1; i < bottom; i++) {
+				int temp = arr[i][right - 1];
+				arr[i][right - 1] = last;
+				last = temp;
+			}
+			right--;
+			for (int i = right - 1; i >= left; i--) {
+				int temp = arr[bottom - 1][i];
+				arr[bottom - 1][i] = last;
+				last = temp;
+			}
+			bottom--;
+			for (int i = bottom - 1; i >= top; i--) {
+				int temp = arr[i][left];
+				arr[i][left] = last;
+				last = temp;
+			}
+			left++;
+		}
+	}
+
+	private static void print(int[][] arr) {
+		for (int i = 0; i < arr.length; i++) {
+			for (int j = 0; j < arr[i].length; j++) {
+				System.out.print(arr[i][j] + " ");
+
+			}
+			System.out.println();
+		}
+	}
+}
+
+
