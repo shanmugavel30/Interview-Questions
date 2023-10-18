@@ -1,0 +1,193 @@
+
+
+
+			Sorting algorithms
+
+1.Selection Sort:
+
+package Sortings;
+import java.util.*;
+public class Selection2 {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		int[] a={8,3,38,2,9};
+		for(int i=0;i<a.length-1;i++) {
+			int min=a[i];
+			for(int j=i+1;j<a.length;j++) {
+				if(a[j]<min) {
+					min=a[j];
+					a[j]=a[i];
+					a[i]=min;
+				}
+			}
+		}
+		System.out.println(Arrays.toString(a));
+	}
+
+}
+
+2.Insertion Sort:
+
+package Sortings;
+import java.util.*;
+public class InsertionSort {
+
+	public static void main(String[] args) {
+		 int[] array = {9,14,3,2,43,11,58,22};
+		int n = array.length;  
+        for (int i = 1; i < n; i++) {  
+            int key = array[i];  
+            int index = i-1;  
+            while ( (index > -1) && ( array [index] > key ) ) {  
+                array [index+1] = array [index];  
+                index--;  
+            }  
+            array[index+1] = key;  
+        }  
+        System.out.println(Arrays.toString(array));
+	}
+
+}
+
+
+3.Bubble Sort:
+
+package Sortings;
+import java.util.*;
+public class BubbleSort {
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+         int[] a={8,3,38,2,9};
+
+         System.out.println("Bubble sort...");
+         for(int i=1;i<a.length;i++) {
+        	 for(int j=0;j<a.length-i;j++) {
+        		 if(a[j+1]<a[j]) {
+        			 int temp=a[j];
+        			 a[j]=a[j+1];
+        			 a[j+1]=temp;
+        		 }
+        	 }
+         }
+         for(int v:a) {
+        	 System.out.println(v);
+         }
+	}
+}
+
+
+4.Quick sort:
+
+package Sortings;
+
+import java.util.*;
+
+public class QuickSort {
+	private void quickSort(int[] arr, int start, int end) {
+		if (start >= end)
+			return;
+
+		int pivot = partition(arr, start, end);
+		quickSort(arr, start, pivot - 1);
+		quickSort(arr, pivot + 1, end);
+
+	}
+
+	private int partition(int[] arr, int start, int end) {
+		int i = start - 1, j;
+		int pivot = arr[end];
+		for (j = start; j < end - 1; j++) {
+			if (arr[j] < pivot) {
+				i++;
+				int temp = arr[i];
+				arr[i] = arr[j];
+				arr[j] = temp;
+			}
+		}
+		i++;
+		int temp = arr[i];
+		arr[i] = arr[end];
+		arr[end] = temp;
+
+		return i;
+
+	}
+	public static void main(String[] args) {
+		Scanner sc = new Scanner(System.in);
+		QuickSort obj = new QuickSort();
+		System.out.println("Enter the number of size:");
+		int n = sc.nextInt();
+		int[] arr = new int[n];
+		for (int i = 0; i < n; i++) {
+			arr[i] = sc.nextInt();
+		}
+
+		obj.quickSort(arr, 0, arr.length - 1);
+		for (int var : arr) {
+			System.out.print(var + " ");
+		}
+	}
+}
+
+5.Merge Sort:
+
+package Sortings;
+
+public class MergeSort {
+	void merge(int[] arr, int l, int m, int r) {
+		int le = m - l + 1;
+		int re = r - m;
+
+		int[] larr = new int[le];
+		int[] rarr = new int[re];
+
+		for (int i = 0; i < le; i++) {
+			larr[i] = arr[l + i];
+		}
+		for (int j = 0; j < re; j++) {
+			rarr[j] = arr[m + 1 + j];
+		}
+
+		int i = 0, j = 0;
+		int k = l;
+		while (i < le && j < re) {
+			if (larr[i] <= rarr[j]) {
+				arr[k] = larr[i];
+				i++;
+			} else {
+				arr[k] = larr[j];
+				j++;
+			}
+			k++;
+		}
+		while (j < re) {
+			arr[k] = rarr[j];
+			j++;
+			k++;
+		}
+	}
+
+	void sort(int[] arr, int L, int R) {
+		if (L < R) {
+			int mid = (L + R) / 2;
+			sort(arr, L, mid);
+			sort(arr, mid + 1, R);
+			merge(arr, L, mid, R);
+		}
+
+	}
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		int arr[] = { 23, 4, 46, 34, 5, 80, 14 };
+
+		MergeSort obj = new MergeSort();
+		obj.sort(arr, 0, arr.length - 1);
+
+		for (int i : arr) {
+			System.out.println(i);
+		}
+	}
+}
+
