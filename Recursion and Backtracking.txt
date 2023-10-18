@@ -1,0 +1,606 @@
+
+1.Combinations:
+
+package Recursion;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class Combinations {
+
+	public static void main(String[] args) {
+		int n=4,k=2;
+		List<List<Integer>> result = new ArrayList<>();
+        List<Integer> current = new ArrayList<>();
+        backtrack(result, current, n, k, 1);
+        System.out.println(result);
+        return ;
+	}
+	private static void backtrack(List<List<Integer>> result, List<Integer> current, int n, int k, int start) {
+        if (current.size() == k) {
+            result.add(new ArrayList<>(current));
+            return;
+        }
+        
+        for (int i = start; i <= n; i++) {
+            current.add(i);
+            backtrack(result, current, n, k, i + 1);
+            current.remove(current.size() - 1);
+        }
+    }
+
+}
+
+
+2.Sub set:
+
+package Recursion;
+
+public class Subset {
+	private void subset(String p,String up) {
+		if(up.isEmpty()) {
+			System.out.println(p);
+			return;
+		}
+		char  ch=up.charAt(0);
+		subset(p+ch,up.substring(1));
+		subset(p,up.substring(1));
+	}
+
+	public static void main(String[] args) {
+		Subset obj=new Subset();
+		String str="123",s="";
+		obj.subset(s,str);
+	}
+}
+
+3.Union path:
+
+ package Recursion;
+
+import java.util.Scanner;
+
+public class UniquePath {
+
+	public static void main(String[] args) {
+		Scanner scan =new Scanner(System.in);
+		UniquePath obj=new UniquePath();
+		System.out.println("Enter the row: ");
+		int r=scan.nextInt();
+		System.out.println("Enter the  col: ");
+		int c=scan.nextInt();
+		int[][] obstacleGrid = {{0,0,0},{0,1,0},{0,0,0}};
+		int res=obj.possiblePath(r-1,c-1,obstacleGrid);
+		System.out.println(res);
+	}
+
+	private int possiblePath(int r, int c,int[][] obstacleGrid) {
+        if(obstacleGrid[r][c]==1){
+            return 0;
+        }
+		if(r==0 || c==0) {
+			return 1;
+		}
+		return possiblePath(r-1,c,obstacleGrid)+possiblePath(r,c-1,obstacleGrid);
+	}
+
+}
+
+4.Sorted or Not:
+
+package Recursion;
+
+public class SortedOrNot {
+	private boolean sorted(int[] arr,int index) {
+		if(index==arr.length) {
+			return true;
+		}
+		return  arr[index]<arr[index+1] && sorted(arr,index+1);
+	}
+
+	public static void main(String[] args) {
+		int[] arr= {1,4,5,2,8};
+		SortedOrNot obj=new SortedOrNot();
+		System.out.println(obj.sorted(arr,0));
+	}
+}
+
+5.Combination sum:
+
+package recursionAndBacktracking;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class CombinationSum {
+
+	public static void main(String[] args) {
+		CombinationSum obj=new CombinationSum();
+		
+		int[] arr=new int[] {2,3,6,7};
+		int sum=7;
+		List<List<Integer>> resArr=new ArrayList<>();
+		obj.findCombinations(0,arr,sum,resArr,new ArrayList<>());
+		for(int i=0;i<resArr.size();i++) {
+			System.out.println(resArr.get(i));
+		}
+	}
+
+	private void findCombinations(int ind,int[] arr, int sum,List<List<Integer>> resArr,ArrayList<Integer> ans) {
+		if(ind==arr.length) {
+			if(sum==0) {
+				resArr.add(new ArrayList<>(ans));				
+			}
+			return;
+		}
+		if(arr[ind]<=sum) {
+			ans.add(arr[ind]);
+			findCombinations(ind,arr,sum-arr[ind],resArr,ans);
+			ans.remove(ans.size()-1);
+		}
+		findCombinations(ind+1,arr,sum,resArr,ans);	
+	}
+}
+
+6.Sub set sum:
+
+ package recursionAndBacktracking;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class SubsetSum {
+	static List<List<Integer>>subList=new ArrayList<>();
+	public static void main(String[] args) {
+		int[] arr=new int[] {3,1,2};
+		
+		List<Integer>ansArr=new ArrayList<>();
+		
+		findSubSum(0,arr,ansArr,0);
+		System.out.println(ansArr);
+	}
+
+	private static void findSubSum(int i, int[] arr, List<Integer> ansArr, int sum) {
+		if(i==arr.length) {
+			ansArr.add(sum);			
+			return;
+		}
+		findSubSum(i+1,arr,ansArr,sum+arr[i]);
+		
+		findSubSum(i+1,arr,ansArr,sum);
+	}
+}
+
+
+7.Move with Obstacles:
+
+package recursionAndBacktracking;
+
+import java.util.Scanner;
+
+public class MoveWithObstactles {
+	
+	static int newPos=0;
+	public static void main(String[] args) {
+		MoveWithObstactles obj = new MoveWithObstactles();
+		obj.start();
+	}
+
+	private void start() {
+		Scanner scan =new Scanner(System.in);
+		
+		System.out.println("Enter the board row: ");
+		int n=scan.nextInt();
+		
+		System.out.println("Enter the board col: ");
+		int m=scan.nextInt();
+		
+		int[][] board=new int[n][m];
+		
+		setBoard(board,n,m);
+		
+		
+		System.out.println("Enter the obstacles count: ");
+		int obsCount=scan.nextInt();
+		
+		for(int i=0;i<obsCount;i++) {
+			System.out.println("Enter the obstacle position: ");
+			int row=scan.nextInt();
+			int col=scan.nextInt();
+			setObstacles(board,row,col);
+		}
+		
+		printBoard(board);
+		
+		System.out.println("Enter the current position: ");
+		int currPos=scan.nextInt();
+		
+		System.out.println("Enter the Steps: ");
+		int steps=scan.nextInt();
+		 
+		int r=-1,c=-1;
+		boolean check=false;
+		
+		for(int i=0;i<n;i++) {
+			for(int j=0;j<m;j++) {
+				if(board[i][j]==currPos) {
+					check=true;
+					r=i;
+					c=j;
+					break;
+				}
+			}
+			if(check) {
+				break;
+			}
+		}
+		if(c==m-1) {
+			r=r+1;
+			c=0;
+		}
+		findNewPos(board,currPos,r,c,steps);
+		System.out.println(newPos);
+				
+	}
+
+	private void findNewPos(int[][] board,int currPos, int r, int c, int steps) {
+		if(steps==0) {
+			newPos=board[r][c];
+			return ;
+		}
+		if( r%2==0 && c<board[0].length-1 && board[r][c+1]!=0) {
+			findNewPos(board,currPos,r,c+1,--steps);
+		}
+		else if( r%2==1 && c>0 && board[r][c-1]!=0) {
+			findNewPos(board,currPos,r,c-1,--steps);
+		}
+		else if( r+1<board.length && board[r+1][c]!=0) {
+			findNewPos(board,currPos,r+1,c,--steps);
+		}
+		else if( r-1>-1 && board[r-1][c]!=0) {
+			findNewPos(board,currPos,r-1,c,--steps);
+		}
+		else {
+			newPos=-1;
+			return ;
+		}
+	}
+
+	private void setObstacles(int[][] board, int row, int col) {
+		board[row][col]=0;
+	}
+
+	private void printBoard(int[][] board) {
+		
+		for(int[] resArr: board) {
+			for(int val:resArr) {
+				System.out.print(val+"  ");
+			}
+			System.out.println();
+			System.out.println();
+		}
+	}
+
+	private void setBoard(int[][] board, int n, int m) {
+		int count=1;
+		
+		for(int i=0;i<n;i++) {
+			for(int j=0;j<m;j++) {
+				if(i%2==0 && j!=m-1) {
+					board[i][j]=count;
+					count++;
+				}
+				else if(i%2==0 && j==m-1) {
+					board[i][j]=count;
+					count+=m;
+				}
+				else if(i%2==1 && j==m-1) {
+					board[i][j]=count;
+					count+=m;
+				}
+				else {
+					board[i][j]=count;
+					count--;
+					
+				}
+			}
+		}
+	}
+
+}
+
+8.Kth permutations:
+
+	package recursionAndBacktracking;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
+public class KthPermutation {
+	
+	private static int count=0;
+	static boolean flag=false;
+	public static void main(String[] args) {
+		KthPermutation obj= new KthPermutation();
+		Scanner scan=new Scanner(System.in);
+		System.out.println("Enter the number: ");
+		int n=scan.nextInt();
+		System.out.println("Enter the permutation: ");
+		int k=scan.nextInt();
+		ArrayList<Integer>arr = new ArrayList<>();
+		getPermutation(n,k,arr);
+		
+	}
+
+	private static void getPermutation(int n, int k, ArrayList<Integer> arr) {
+		if(n==arr.size()) {
+			count++;
+			if(k==count) {
+				flag=true;
+				System.out.println(arr);
+				return;
+				
+			}
+		}
+		
+		for(int j=1;j<=n;j++) {
+			if(flag) {
+				break;
+			}
+			if(!arr.contains(j)) {
+				arr.add(j);
+				getPermutation(n,k,arr);
+				arr.remove(arr.size()-1);
+			}
+		}
+	}
+
+}
+
+9.Expression matching:
+
+package recursionAndBacktracking;
+
+public class ExpressionMatching {
+
+	public static void main(String[] args) {
+		ExpressionMatching obj = new ExpressionMatching();
+		obj.start();
+	}
+
+	private void start() {
+		String s = "aabaabf";
+		String p = "a*bf";
+		System.out.println(isMatch(s, p));
+
+	}
+
+	public boolean isMatch(String s, String p) {
+		if (p.isEmpty() && s.isEmpty()) {
+			return true;
+		}
+		if (s.isEmpty() || p.isEmpty()) {
+			return false;
+		}
+		boolean firstMatch = (s.charAt(0) == p.charAt(0) || p.charAt(0) == '.');
+		if (p.charAt(0) == '*') {
+
+			return (isMatch(s.substring(1), p.substring(1))) || (isMatch(s.substring(1), p));
+		} else {
+			return firstMatch && isMatch(s.substring(1), p.substring(1));
+		}
+
+	}
+}
+
+10.Word search:
+
+package recursionAndBacktracking;
+
+public class WordSearch {
+
+	public static void main(String[] args) {
+		WordSearch obj = new WordSearch();
+		obj.start();
+	}
+
+	private void start() {
+		char[][] matrix = { { 'A', 'B', 'C', 'E' }, { 'S', 'F', 'C', 'S' }, { 'A', 'D', 'E', 'E' } };
+		String word = "ABCCED";
+		for (int i = 0; i < matrix.length; i++) {
+			for (int j = 0; j < matrix[0].length; j++) {
+				if (matrix[i][j] == word.charAt(0) && found(matrix, word, i, j, 1)) {
+					System.out.println("found");
+					return;
+				} else {
+					System.out.println("Not found");
+				}
+			}
+		}
+	}
+
+	private boolean found(char[][] matrix, String word, int i, int j, int index) {
+		if (index == word.length() - 1)
+			return true;
+		
+		char temp = matrix[i][j];
+		matrix[i][j] = '.';
+		if (i + 1 < matrix.length && matrix[i + 1][j] == word.charAt(index)
+				&& found(matrix, word, i + 1, j, index + 1)) {
+			return true;
+		}
+		if (j + 1 < matrix[0].length && matrix[i][j + 1] == word.charAt(index)
+				&& found(matrix, word, i, j + 1, index + 1)) {
+			return true;
+		}
+		if (i - 1 > -1 && matrix[i - 1][j] == word.charAt(index) && found(matrix, word, i - 1, j, index + 1)) {
+			return true;
+		}
+		if (j - 1 > -1 && matrix[i][j - 1] == word.charAt(index) && found(matrix, word, i, j - 1, index + 1)) {
+			return true;
+		}
+
+		matrix[i][j] = temp;
+
+		return false;
+	}
+
+}
+
+
+11. Rat in maze:
+
+package practiceZoho;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class RatInMaze {
+	private static final int N = 4; // Size of the maze
+
+    // Function to print the paths
+    private static void printPaths(List<String> paths) {
+        for (String path : paths) {
+            System.out.println(path);
+        }
+    }
+
+    private static boolean isSafe(int[][] maze, int x, int y) {
+        return x >= 0 && x < N && y >= 0 && y < N && maze[x][y] == 1;
+    }
+	
+	private static void findPaths(int[][] maze, int x, int y, String path, List<String> paths) {
+        // Check if the current cell is the destination cell
+        if (x == N - 1 && y == N - 1) {
+            paths.add(path);
+            return;
+        }
+
+        // Move right
+        if (isSafe(maze, x, y + 1)) {
+            maze[x][y] = 0; // Mark current cell as visited
+            findPaths(maze, x, y + 1, path + "R", paths);
+            maze[x][y] = 1; // Mark current cell as unvisited
+        }
+        
+     // Move down
+        if (isSafe(maze, x + 1, y)) {
+            maze[x][y] = 0; // Mark current cell as visited
+            findPaths(maze, x + 1, y, path + "D", paths);
+            maze[x][y] = 1; // Mark current cell as unvisited
+        }
+        
+        if (isSafe(maze, x - 1, y)) {
+            maze[x][y] = 0; // Mark current cell as visited
+            findPaths(maze, x - 1, y, path + "U", paths);
+            maze[x][y] = 1; // Mark current cell as unvisited
+        }
+        if (isSafe(maze, x , y-1)) {
+            maze[x][y] = 0; // Mark current cell as visited
+            findPaths(maze, x , y-1, path + "L", paths);
+            maze[x][y] = 1; // Mark current cell as unvisited
+        }
+    }
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		int[][] maze = {
+	            {1, 0, 0, 0},
+	            {1, 1, 0, 1},
+	            {1, 1, 1, 0},
+	            {1, 1, 1, 1}
+	        };
+
+	        List<String> paths = new ArrayList<>();
+	        findPaths(maze, 0, 0, "", paths);
+
+	        if (paths.isEmpty()) {
+	            System.out.println("No paths found.");
+	        } else {
+	            System.out.println("All possible paths in the maze:");
+	            printPaths(paths);
+	        }
+	}
+
+}
+
+11.Unique paths:
+
+package zohohardLevel;
+
+public class UniquePaths {
+
+	public static void main(String[] args) {
+		UniquePaths obj=new UniquePaths();
+		obj.start();
+	}
+
+	private void start() {
+		 int[][] dp = new int[3][7];
+	        
+	        // Initialize the top row and left column to 1, as there's only one way to reach any cell in them.
+	        for (int i = 0; i < 3; i++) {
+	            dp[i][0] = 1;
+	        }
+	        for (int j = 0; j < 7; j++) {
+	            dp[0][j] = 1;
+	        }
+	        
+	        // Fill in the rest of the dp table using the recurrence relation: dp[i][j] = dp[i-1][j] + dp[i][j-1]
+	        for (int i = 1; i < 3; i++) {
+	            for (int j = 1; j < 7; j++) {
+	                dp[i][j] = dp[i-1][j] + dp[i][j-1];
+	            }
+	        }
+	        
+	        // The bottom-right cell contains the number of unique paths...
+	        System.out.println(dp[3-1][7-1]);
+	}
+
+}
+
+13.Generate paranthesis:
+
+package zohohardLevel;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
+public class GenerateParanthesis {
+
+	public static void main(String[] args) {
+		Scanner scan=new Scanner(System.in);
+		int n=scan.nextInt();
+		
+		GenerateParanthesis obj=new GenerateParanthesis();
+		obj.generateParenthesis(n);
+		
+	}
+	
+	 public List<String> generateParenthesis(int n) {
+	        List<String> result = new ArrayList<>();
+	        backtrack(result, "", 0, 0, n);
+	        
+	        System.out.println(result);
+	        
+	        return result;
+	    }
+	    
+	    private void backtrack(List<String> result, String current, int open, int close, int n) {
+	        if (current.length() == 2 * n) {
+	            result.add(current);
+	            return;
+	        }
+	        
+	        if (open < n) {
+	            backtrack(result, current + "(", open + 1, close, n);
+	        }
+	        
+	        if (close < open) {
+	            backtrack(result, current + ")", open, close + 1, n);
+	        }
+	    }
+}
+
